@@ -10,6 +10,7 @@ class citas extends Model
     protected $fillable = [
         'cita_hora',
         'cita_numero',
+        'dia',
         'id_estudiante',
         'id_evento',
     ];

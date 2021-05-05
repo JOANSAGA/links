@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EventosController;
+use App\Http\Controllers\ConfiguracionesController;
+use App\Http\Controllers\CitasController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +25,24 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::get(
+    '/getDataEventos',
+    [EventosController::class, 'readAll']
+)->middleware(['auth']);
+
+Route::get(
+    '/getEvento/{id}',
+    [EventosController::class, 'readOne']
+)->middleware(['auth']);
+
+Route::get(
+    '/getDayEvent/{id}/{day}',
+    [ConfiguracionesController::class, 'readDay']
+)->middleware(['auth']);
+
+Route::post(
+    '/postReserva',
+    [CitasController::class, 'reservar']
+)->middleware(['auth']);
+
+require __DIR__ . '/auth.php';

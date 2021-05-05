@@ -15,8 +15,9 @@ class CreateCitasTable extends Migration
     {
         Schema::create('citas', function (Blueprint $table) {
             $table->id();
-            $table->string('cita_hora');
+            $table->integer('cita_hora');
             $table->integer('cita_numero');
+            $table->string('dia');
             $table->unsignedBigInteger('id_estudiante');
             $table->foreign('id_estudiante')->references('id')->on('estudiantes');
             $table->unsignedBigInteger('id_evento');

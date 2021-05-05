@@ -3808,13 +3808,207 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var default_layout = "default";
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: {},
   data: function data() {
     return {
-      message: 'Hello World'
+      message: "",
+      eventos: {},
+      eventoInfo: {},
+      selected: "",
+      idEvento: "",
+      horasReservas: "",
+      picked: "",
+      formData: {}
     };
+  },
+  methods: {
+    getDataEventos: function getDataEventos() {
+      var _this = this;
+
+      var url = "/getDataEventos";
+      axios.get(url).then(function (response) {
+        //console.log(response);
+        return response.data;
+      }).then(function (response) {
+        _this.eventos = response; //console.log(this.eventos);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    cargar: function cargar(id) {
+      var _this2 = this;
+
+      var url = "/getEvento/" + id;
+      this.eventoInfo = {};
+      this.selected = "";
+      this.horasReservas = {};
+      axios.get(url).then(function (response) {
+        //console.log(response);
+        return response;
+      }).then(function (response) {
+        _this2.eventoInfo = response.data;
+        console.log(response.data);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    onChange: function onChange(id) {
+      var _this3 = this;
+
+      var url = "/getDayEvent/" + id + "/" + this.selected;
+      this.horasReservas = {};
+      this.idEvento = id;
+      axios.get(url).then(function (response) {
+        //console.log(response);
+        return response;
+      }).then(function (response) {
+        _this3.horasReservas = response.data;
+        console.log(response.data);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    postReserva: function postReserva(id) {
+      var _this4 = this;
+
+      var url = "/postReserva";
+      this.formData = {};
+      this.formData.dia = this.selected;
+      this.formData.hora = this.picked;
+      this.formData.evento = this.idEvento;
+      axios.post(url, this.formData).then(function (response) {
+        //console.log(response);
+        return response;
+      }).then(function (response) {
+        _this4.message = response.data;
+        console.log(response.data);
+
+        _this4.onChange(_this4.idEvento);
+
+        _this4.picked = "";
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  },
+  created: function created() {
+    this.getDataEventos();
   }
 });
 
@@ -21384,9 +21578,384 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n  " + _vm._s(_vm.message) + "\n")])
+  return _c("div", [
+    _c("div", { staticClass: "table w-full ..." }, [
+      _c(
+        "div",
+        { staticClass: "table-row-group" },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._l(_vm.eventos, function(evento) {
+            return _c("div", { key: evento.id, staticClass: "table-row" }, [
+              _c("div", { staticClass: "table-cell pt-5" }, [
+                _vm._v(_vm._s(evento.nombre))
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex justify-center pt-5" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "flex justify-end",
+                    attrs: { "x-data": "{show:false}" }
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "p-2 border border-blue-500",
+                        attrs: { "x-on:click.prevent": "show=!show" },
+                        on: {
+                          click: function($event) {
+                            return _vm.cargar(evento.id)
+                          }
+                        }
+                      },
+                      [_vm._v("\n              Reservar\n            ")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "fixed inset-0 z-10 overflow-y-auto",
+                        attrs: {
+                          "aria-labelledby": "modal-title",
+                          role: "dialog",
+                          "aria-modal": "true",
+                          "x-show": "show"
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+                          },
+                          [
+                            _c("div", {
+                              staticClass:
+                                "fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75",
+                              attrs: { "aria-hidden": "true" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                staticClass:
+                                  "hidden sm:inline-block sm:align-middle sm:h-screen",
+                                attrs: { "aria-hidden": "true" }
+                              },
+                              [_vm._v("​")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-xl sm:w-full"
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4"
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "sm:flex sm:items-start" },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "w-full mt-3 text-center sm:mt-0 sm:text-left"
+                                          },
+                                          [
+                                            _c(
+                                              "h3",
+                                              {
+                                                staticClass:
+                                                  "pb-2 text-lg font-semibold leading-6 text-center text-gray-900 uppercase border-b-2",
+                                                attrs: { id: "modal-title" }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                          " +
+                                                    _vm._s(evento.nombre) +
+                                                    "\n                        "
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              { staticClass: "mt-2" },
+                                              [
+                                                _c(
+                                                  "select",
+                                                  {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value: _vm.selected,
+                                                        expression: "selected"
+                                                      }
+                                                    ],
+                                                    attrs: { name: "", id: "" },
+                                                    on: {
+                                                      change: [
+                                                        function($event) {
+                                                          var $$selectedVal = Array.prototype.filter
+                                                            .call(
+                                                              $event.target
+                                                                .options,
+                                                              function(o) {
+                                                                return o.selected
+                                                              }
+                                                            )
+                                                            .map(function(o) {
+                                                              var val =
+                                                                "_value" in o
+                                                                  ? o._value
+                                                                  : o.value
+                                                              return val
+                                                            })
+                                                          _vm.selected = $event
+                                                            .target.multiple
+                                                            ? $$selectedVal
+                                                            : $$selectedVal[0]
+                                                        },
+                                                        function($event) {
+                                                          return _vm.onChange(
+                                                            evento.id
+                                                          )
+                                                        }
+                                                      ]
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "option",
+                                                      { attrs: { value: "" } },
+                                                      [
+                                                        _vm._v(
+                                                          "Seleccionar Día"
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _vm._l(
+                                                      _vm.eventoInfo,
+                                                      function(infoDia) {
+                                                        return _c(
+                                                          "option",
+                                                          { key: infoDia.id },
+                                                          [
+                                                            _vm._v(
+                                                              "\n                              " +
+                                                                _vm._s(
+                                                                  infoDia.dia
+                                                                ) +
+                                                                "\n                            "
+                                                            )
+                                                          ]
+                                                        )
+                                                      }
+                                                    )
+                                                  ],
+                                                  2
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "pt-3" },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                            Cupos disponibles:\n                            " +
+                                                        _vm._s(
+                                                          _vm.horasReservas
+                                                            .numero_citas
+                                                        ) +
+                                                        "\n                          "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _vm._l(
+                                                  _vm.horasReservas.horas,
+                                                  function(horaReserva) {
+                                                    return _c(
+                                                      "div",
+                                                      { key: horaReserva.id },
+                                                      [
+                                                        horaReserva.disponible
+                                                          ? _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "pt-3"
+                                                              },
+                                                              [
+                                                                _c("input", {
+                                                                  directives: [
+                                                                    {
+                                                                      name:
+                                                                        "model",
+                                                                      rawName:
+                                                                        "v-model",
+                                                                      value:
+                                                                        _vm.picked,
+                                                                      expression:
+                                                                        "picked"
+                                                                    }
+                                                                  ],
+                                                                  attrs: {
+                                                                    type:
+                                                                      "radio",
+                                                                    id:
+                                                                      horaReserva.hora
+                                                                  },
+                                                                  domProps: {
+                                                                    value:
+                                                                      horaReserva.hora,
+                                                                    checked: _vm._q(
+                                                                      _vm.picked,
+                                                                      horaReserva.hora
+                                                                    )
+                                                                  },
+                                                                  on: {
+                                                                    change: function(
+                                                                      $event
+                                                                    ) {
+                                                                      _vm.picked =
+                                                                        horaReserva.hora
+                                                                    }
+                                                                  }
+                                                                }),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "label",
+                                                                  {
+                                                                    staticClass:
+                                                                      "ml-2",
+                                                                    attrs: {
+                                                                      for:
+                                                                        horaReserva.hora
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Hora: " +
+                                                                        _vm._s(
+                                                                          horaReserva.hora
+                                                                        ) +
+                                                                        ":00"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            )
+                                                          : _vm._e()
+                                                      ]
+                                                    )
+                                                  }
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "span",
+                                                  {
+                                                    staticClass:
+                                                      "pt-2 text-red-400"
+                                                  },
+                                                  [_vm._v(_vm._s(_vm.message))]
+                                                )
+                                              ],
+                                              2
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse"
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "inline-flex items-center px-4 py-2 ml-3 text-sm font-semibold uppercase transition duration-150 ease-in-out border rounded-md focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25",
+                                        attrs: {
+                                          "x-on:click.prevent": "show=false"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                      Cancelar\n                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "inline-flex items-center px-4 py-2 ml-3 text-sm font-semibold uppercase transition duration-150 ease-in-out border rounded-md focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25",
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.postReserva()
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                      Reservar\n                    "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ])
+            ])
+          })
+        ],
+        2
+      )
+    ]),
+    _vm._v(" "),
+    _c("br")
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "table-row text-2xl" }, [
+      _c("div", { staticClass: "table-cell text-center" }, [_vm._v("Nombre")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "table-cell text-center" }, [_vm._v("Acciones")])
+    ])
+  }
+]
 render._withStripped = true
 
 
